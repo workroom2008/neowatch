@@ -319,24 +319,6 @@ app.get('/api/admin/channels/audit', requireAdmin, async (_req, res) => {
   }
 });
 
-// Admin: list the adult (NSFW) channels currently in the catalog. With
-// HIDE_NSFW=true they are never indexed, so this returns an empty list.
-app.get('/api/admin/nsfw', requireAdmin, async (_req, res) => {
-  try {
-    await ensureCatalog();
-    // queryChannels with no filters + far limits yields every visible item.
-    const all = [];
-    for (let page = 1; ; page++) {
-      const r = queryChannels({ category: null, country: null, language: null, q: '', foot: false, premiumOk: true, page, limit: 120 });
-      all.push(...r.items);
-      if (page >= r.pages || !r.items.length) break;
-    }
-    res.json({ total: all.filter((c) => c.nsfw).length, items: all.filter((c) => c.nsfw).map(({ id, name, url, countryName, categories }) => ({ id, name, url, countryName })) });
-  } catch {
-    res.status(503).json({ error: 'catalog unavailable' });
-  }
-});
-
 app.post('/api/catalog/refresh', requireAdmin, async (_req, res) => {
   try {
     await ensureCatalog(true);
