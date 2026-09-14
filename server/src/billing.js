@@ -62,6 +62,13 @@ billingUserRouter.post('/billing/checkout', requireUser, async (req, res) => {
   const { plan } = req.body || {};
   if (plan !== 'premium') return res.status(400).json({ error: 'unknown plan' });
 
+  // Subscription code gate: premium is granted only when the user submits the
+  // operator's subscription code (QQ number). The Stripe flow stays untouched.
+  const code = typeof req.body?.code === 'string' ? req.body.code.trim() : '';
+  if (config.billingProvider !== 'stripe' && code !== config.subscribeCode) {
+    return res.status(403).json({ error: '订阅码无效 / Invalid subscription code' });
+  }
+
   if (config.billingProvider === 'stripe') {
     if (!config.stripeSecret || !config.stripePriceId) {
       return res.status(503).json({ error: 'stripe not configured (set STRIPE_SECRET, STRIPE_PRICE_ID)' });

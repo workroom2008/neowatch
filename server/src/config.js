@@ -63,6 +63,9 @@ export const config = {
   premiumPrice: process.env.PREMIUM_PRICE || '4.99',
   premiumCurrency: process.env.PREMIUM_CURRENCY || 'EUR',
   premiumPeriodDays: Number(process.env.PREMIUM_PERIOD_DAYS) || 30,
+  // Premium subscription code (QQ number required for subscribing). The mock
+  // provider refuses to grant premium without a matching code.
+  subscribeCode: process.env.SUBSCRIBE_CODE || '29595662',
   // Google AdSense publisher id (e.g. ca-pub-XXXX) shown to FREE users only.
   adsenseClient: process.env.ADSENSE_CLIENT || '',
   stripeSecret: process.env.STRIPE_SECRET || '',

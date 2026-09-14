@@ -19,6 +19,7 @@ export function Pricing() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [code, setCode] = useState('');
 
   useEffect(() => {
     if (!open) return;
@@ -38,7 +39,7 @@ export function Pricing() {
     setBusy(true);
     setMsg(null);
     try {
-      const r = await api.post<{ activated?: boolean; url?: string }>('/billing/checkout', { plan: 'premium' });
+      const r = await api.post<{ activated?: boolean; url?: string }>('/billing/checkout', { plan: 'premium', code: code.trim() });
       if (r.url) {
         // Stripe: redirect to hosted checkout (premium granted by the webhook).
         window.location.href = r.url;
@@ -105,14 +106,24 @@ export function Pricing() {
                 ))}
               </ul>
               {p.id === 'premium' ? (
-                <button
-                  onClick={upgrade}
-                  disabled={busy || isPremium()}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-accent py-2.5 text-sm font-semibold text-black hover:opacity-90 disabled:opacity-50"
-                >
-                  {busy ? <Loader2 size={16} className="animate-spin" /> : <Crown size={16} />}
-                  {isPremium() ? (lang === 'zh' ? '已是高级会员' : 'Already Premium') : user ? t('home.goPremium') : (lang === 'zh' ? '登录后订阅' : 'Sign in to subscribe')}
-                </button>
+                <div className="flex flex-col gap-2">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder={t('pricing.qqPlaceholder')}
+                    className="input w-full"
+                  />
+                  <button
+                    onClick={upgrade}
+                    disabled={busy || isPremium()}
+                    className="flex items-center justify-center gap-2 rounded-lg bg-accent py-2.5 text-sm font-semibold text-black hover:opacity-90 disabled:opacity-50"
+                  >
+                    {busy ? <Loader2 size={16} className="animate-spin" /> : <Crown size={16} />}
+                    {isPremium() ? (lang === 'zh' ? '已是高级会员' : 'Already Premium') : user ? t('pricing.qqButton') : (lang === 'zh' ? '登录后订阅' : 'Sign in to subscribe')}
+                  </button>
+                </div>
               ) : (
                 <div className="rounded-lg border border-white/10 py-2.5 text-center text-xs text-ink/40">{t('pricing.currentPlan')}</div>
               )}

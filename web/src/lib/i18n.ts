@@ -266,6 +266,9 @@ const DICT: Record<string, Tr> = {
   'account.pwUpdated': { zh: '密码已更新。', en: 'Password updated.' },
   'account.cancelOk': { zh: '高级会员已取消。', en: 'Premium cancelled.' },
   'filter.results': { zh: '搜索结果', en: 'Results for' },
+  'pricing.qqCode': { zh: '订阅码', en: 'Subscription code' },
+  'pricing.qqPlaceholder': { zh: '请输入 QQ 订阅码', en: 'Enter your subscription code' },
+  'pricing.qqButton': { zh: '订阅', en: 'Subscribe' },
 };
 
 interface I18nState {
