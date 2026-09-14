@@ -6,7 +6,7 @@ import { useCatalog } from '@/store/catalogStore';
 import { usePlayer } from '@/store/playerStore';
 import { useUI } from '@/store/uiStore';
 import { useAuth } from '@/store/authStore';
-import { useT, useI18n, LANGS } from '@/lib/i18n';
+import { useT, useI18n, numLocale, LANGS } from '@/lib/i18n';
 import { debounce } from '@/lib/format';
 import { api } from '@/lib/api';
 import type { Channel } from '@/types';
@@ -202,7 +202,7 @@ export function TopBar() {
           className="hidden items-center gap-2 rounded-[9px] border border-white/[0.08] px-2.5 py-2 font-mono text-[10px] font-semibold text-ink-2 hover:border-ok/50 hover:text-ink lg:flex"
         >
           <span className="h-1.5 w-1.5 animate-pulse-green rounded-full bg-ok" />
-          {(meta.online ?? meta.total).toLocaleString('fr')} {t('top.online')}
+          {(meta.online ?? meta.total).toLocaleString(numLocale())} {t('top.online')}
         </button>
       )}
 

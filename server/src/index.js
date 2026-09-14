@@ -169,18 +169,32 @@ const HOME_PROJ_TTL_MS = 90 * 60 * 1000; // re-sign the home payload every 90 mi
 const EMPTY_FILTER = { category: null, country: null, language: null, q: '', foot: false, favoritesOnly: false, onlineOnly: false, hideGeoBlocked: false };
 // UI language -> iptv-org ISO-639 language code used to boost matching channels
 // so the home feels localized for the viewer's language.
-const LANG3 = { fr: 'fra', en: 'eng', ru: 'rus' };
+const LANG3 = { zh: 'zho', en: 'eng' };
+// Rail titles are hardcoded French upstream; zh/en get their own so the home
+// page reads natively (any other key falls back to the upstream title).
+const RAIL_TITLES = {
+  zh: {
+    foot: '足球与体育', fr: '法国', uk: '英国', de: '德国', it: '意大利', es: '西班牙',
+    news: '新闻直播', movies: '电影', series: '剧集', kids: '少儿', music: '音乐',
+    documentary: '纪录片', entertainment: '综艺', general: '热门综合频道',
+  },
+  en: {
+    foot: 'Football & Sport', fr: 'France', uk: 'United Kingdom', de: 'Germany', it: 'Italy', es: 'Spain',
+    news: 'Live news', movies: 'Movies', series: 'Series', kids: 'Kids', music: 'Music',
+    documentary: 'Documentaries', entertainment: 'Entertainment', general: 'Popular channels',
+  },
+};
 // Per language: raw filtered+sorted selection (cached per build). Projection
 // (URL signing / premium lock) is cached per language+tier.
 const homeRawByLang = new Map();   // lang -> { builtAt, rails }
 const homeProjected = new Map();   // `${lang}:${tier}` -> { builtAt, payload }
 
-function buildHomeRaw(langBoost) {
+function buildHomeRaw(langBoost, lang) {
   return HOME_RAILS
     .map((r) => {
       const sel = selectChannels({ ...r.q, page: 1, limit: 30, langBoost });
       // Send a COMPLETE Filters object so the client replaces (not merges) state.
-      return { key: r.key, title: r.title, icon: r.icon, filter: { ...EMPTY_FILTER, ...r.q }, total: sel.total, raw: sel.items };
+      return { key: r.key, title: RAIL_TITLES[lang]?.[r.key] || r.title, icon: r.icon, filter: { ...EMPTY_FILTER, ...r.q }, total: sel.total, raw: sel.items };
     })
     .filter((r) => r.raw.length);
 }
@@ -210,10 +224,10 @@ app.get('/api/catalog/home', gateContent, async (req, res) => {
   try {
     await ensureCatalog();
     const builtAt = getMeta().updatedAt;
-    const lang = ['fr', 'en', 'ru'].includes(req.query.lang) ? req.query.lang : 'fr';
+    const lang = ['zh', 'en'].includes(req.query.lang) ? req.query.lang : 'zh';
     let raw = homeRawByLang.get(lang);
     if (!raw || raw.builtAt !== builtAt) {
-      raw = { builtAt, rails: buildHomeRaw(LANG3[lang]) };
+      raw = { builtAt, rails: buildHomeRaw(LANG3[lang], lang) };
       homeRawByLang.set(lang, raw);
     }
     const tier = isPremium(req.user) ? 'premium' : 'free';

@@ -6,7 +6,7 @@ import { useAuth } from '@/store/authStore';
 import { useUI } from '@/store/uiStore';
 import { useCatalog } from '@/store/catalogStore';
 import { useEscapeClose } from './ui';
-import { useT } from '@/lib/i18n';
+import { useT, numLocale } from '@/lib/i18n';
 
 export function Account() {
   const open = useUI((s) => s.accountOpen);
@@ -24,7 +24,7 @@ export function Account() {
 
   if (!open || !user) return null;
 
-  const expiry = user.planExpires ? new Date(user.planExpires).toLocaleDateString('fr') : null;
+  const expiry = user.planExpires ? new Date(user.planExpires).toLocaleDateString(numLocale()) : null;
 
   const changePassword = async (e: React.FormEvent) => {
     e.preventDefault();

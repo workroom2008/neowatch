@@ -8,7 +8,7 @@ import { useCatalog } from '@/store/catalogStore';
 import { useUI } from '@/store/uiStore';
 import { usePlayer } from '@/store/playerStore';
 import { useAuth } from '@/store/authStore';
-import { useT, useI18n } from '@/lib/i18n';
+import { useT, useI18n, numLocale } from '@/lib/i18n';
 import { Rail } from './Rail';
 import { CardSkeleton } from './ui';
 
@@ -169,7 +169,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
                   <span className="text-[23px] leading-none drop-shadow">{tile.icon}</span>
                   <span className="flex flex-col gap-0.5">
                     <span className="text-[15px] font-bold text-white drop-shadow">{tile.label}</span>
-                    {count != null && <span className="font-mono text-[10px] tracking-wide text-white/60">{count.toLocaleString('fr')} {t('home.channelsCount')}</span>}
+                    {count != null && <span className="font-mono text-[10px] tracking-wide text-white/60">{count.toLocaleString(numLocale())} {t('home.channelsCount')}</span>}
                   </span>
                 </div>
               </button>
@@ -211,7 +211,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
               onPlay={onPlay}
               wide={i === 0}
               variant={rail.key === 'movies' || rail.key === 'series' ? 'poster' : 'card'}
-              seeAllLabel={`${t('home.seeAll')} (${rail.total.toLocaleString('fr')})`}
+              seeAllLabel={`${t('home.seeAll')} (${rail.total.toLocaleString(numLocale())})`}
               onSeeAll={() => setFilters(rail.filter)}
             />
             {/* Free-tier upsell, slotted after the first rail */}
@@ -265,8 +265,8 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
           ]} />
         </div>
         <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.08] pt-5 font-mono text-[11px] tracking-wide text-ink-3">
-          <span>© {new Date().getFullYear()} NEOWATCH · Flux librement accessibles via iptv-org</span>
-          {meta && <span>{meta.countries.length} pays · {meta.total.toLocaleString('fr')} chaînes</span>}
+          <span>© {new Date().getFullYear()} NEOWATCH · {lang === 'zh' ? '直播流来自 iptv-org 公开目录' : 'Free streams via iptv-org'}</span>
+          {meta && <span>{meta.countries.length} {lang === 'zh' ? '个国家' : 'countries'} · {meta.total.toLocaleString(numLocale())} {t('home.channelsCount')}</span>}
         </div>
       </footer>
     </div>

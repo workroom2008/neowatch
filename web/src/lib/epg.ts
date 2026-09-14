@@ -2,7 +2,7 @@ import { api } from './api';
 import { useI18n } from './i18n';
 
 // 24h locale per UI language so EPG times match the viewer's expectations.
-const TIME_LOCALE: Record<string, string> = { fr: 'fr-FR', en: 'en-GB', ru: 'ru-RU' };
+const TIME_LOCALE: Record<string, string> = { zh: 'zh-CN', en: 'en-GB' };
 
 export interface Programme {
   start: number;
@@ -45,7 +45,7 @@ export async function searchProgrammes(q: string): Promise<ProgrammeResult[]> {
 
 export function fmtTime(ms: number): string {
   try {
-    const locale = TIME_LOCALE[useI18n.getState().lang] || 'fr-FR';
+    const locale = TIME_LOCALE[useI18n.getState().lang] || 'zh-CN';
     return new Date(ms).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
   } catch {
     return '';

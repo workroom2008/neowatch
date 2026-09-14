@@ -32,7 +32,7 @@ export function Settings() {
 
         {/* Language */}
         <Label icon={<Languages size={13} />}>{t('set.language')}</Label>
-        <div className="mb-4 grid grid-cols-3 gap-2">
+        <div className="mb-4 grid grid-cols-2 gap-2">
           {LANGS.map((l) => (
             <button
               key={l.code}

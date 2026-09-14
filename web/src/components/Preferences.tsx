@@ -6,7 +6,7 @@ import { useCatalog } from '@/store/catalogStore';
 import { usePrefs } from '@/store/prefsStore';
 import { categoryIcon, categoryLabel } from '@/lib/format';
 import { useEscapeClose } from './ui';
-import { useT } from '@/lib/i18n';
+import { useT, numLocale } from '@/lib/i18n';
 
 // Premium "watch preferences": tailor the huge catalog to your needs
 // (hide categories you never watch, pin favourites, set a default home view).
@@ -81,7 +81,7 @@ export function Preferences() {
                   <div key={c.id} className={clsx('flex items-center gap-2 rounded-lg border px-2 py-1.5', hidden ? 'border-white/[0.04] opacity-50' : 'border-white/[0.06]')}>
                     <span className="text-sm">{categoryIcon(c.id)}</span>
                     <span className="flex-1 truncate text-xs text-ink/80">{categoryLabel(c.id)}</span>
-                    <span className="font-mono text-[9px] text-ink/30">{c.count.toLocaleString('fr')}</span>
+                    <span className="font-mono text-[9px] text-ink/30">{c.count.toLocaleString(numLocale())}</span>
                     <button onClick={() => togglePinned(c.id)} title={t('prefs.pin')} className={clsx('rounded p-1', pinned ? 'text-accent' : 'text-ink/40 hover:text-accent')}>
                       <Pin size={13} fill={pinned ? 'currentColor' : 'none'} />
                     </button>

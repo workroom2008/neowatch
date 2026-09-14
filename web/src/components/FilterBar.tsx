@@ -3,7 +3,7 @@ import { Wifi, Globe2, RefreshCw, LayoutGrid } from 'lucide-react';
 import { useCatalog } from '@/store/catalogStore';
 import { useSettings, type Density } from '@/store/settingsStore';
 import { categoryLabel } from '@/lib/format';
-import { useT } from '@/lib/i18n';
+import { useT, numLocale } from '@/lib/i18n';
 
 export function FilterBar() {
   // Field selectors so the bar re-renders only on the slices it uses.
@@ -30,7 +30,7 @@ export function FilterBar() {
     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-white/[0.06] bg-surface/95 px-4 py-2 backdrop-blur-xl">
       <div className="flex items-baseline gap-2">
         <h1 className="text-sm font-semibold text-ink">{title}</h1>
-        {!filters.favoritesOnly && <span className="font-mono text-[11px] text-ink/40">{total.toLocaleString('fr')}</span>}
+        {!filters.favoritesOnly && <span className="font-mono text-[11px] text-ink/40">{total.toLocaleString(numLocale())}</span>}
       </div>
 
       <div className="ml-auto flex flex-wrap items-center gap-1.5">
