@@ -8,19 +8,24 @@ import { setPlan, findUserById, findByStripeCustomer, setStripeCustomer, sanitiz
 // STRIPE_SECRET + STRIPE_PRICE_ID and a webhook to confirm payment before
 // granting premium (not wired without the operator's keys).
 
-function plans() {
+function plans(lang = 'zh') {
+  const zh = lang === 'zh';
   return [
     {
       id: 'free',
       name: 'Free',
       price: 0,
       currency: config.premiumCurrency,
-      period: '',
+      period: zh ? '' : '',
       ads: true,
-      features: [
-        'TOUT le catalogue en accès libre : sport, films, séries, news, kids, musique, radios...',
-        'Lecteur HLS, favoris, multi-écran, guide TV',
-        'Financé par la publicité',
+      features: zh ? [
+        '全目录免费观看:体育、电影、剧集、新闻、少儿、音乐、电台…',
+        'HLS 播放、收藏、多画面、电视节目单',
+        '由广告支持',
+      ] : [
+        'The entire catalog free: sports, movies, series, news, kids, music, radios...',
+        'HLS player, favorites, multi-view, TV guide',
+        'Ad-supported',
       ],
     },
     {
@@ -28,21 +33,27 @@ function plans() {
       name: 'Premium',
       price: Number(config.premiumPrice),
       currency: config.premiumCurrency,
-      period: 'mois',
+      period: zh ? '月' : 'mo',
       ads: false,
-      features: [
-        'Aucune publicité',
-        'Multi-écran étendu + synchronisation de vos préférences entre appareils',
-        'Vos propres playlists M3U / IPTV + guide EPG personnalisé',
-        'Curation et confort : catégories épinglées, qualité max',
+      features: zh ? [
+        '无广告',
+        '扩展多画面 + 跨设备偏好同步',
+        '你的 M3U / IPTV 播放列表 + 个性化 EPG',
+        '精选与舒适体验:置顶分类、最高画质',
+      ] : [
+        'No ads',
+        'Extended multi-view + cross-device preference sync',
+        'Your own M3U / IPTV playlists + personalized EPG',
+        'Curation and comfort: pinned categories, top quality',
       ],
     },
   ];
 }
 
 export const billingPublicRouter = Router();
-billingPublicRouter.get('/billing/plans', (_req, res) => {
-  res.json({ provider: config.billingProvider, plans: plans() });
+billingPublicRouter.get('/billing/plans', (req, res) => {
+  const lang = typeof req.query.lang === 'string' && req.query.lang === 'en' ? 'en' : 'zh';
+  res.json({ provider: config.billingProvider, plans: plans(lang) });
 });
 
 export const billingUserRouter = Router();

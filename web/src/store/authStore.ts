@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { api, setToken, getToken, ApiError } from '@/lib/api';
+import { useI18n } from '@/lib/i18n';
 import type { RuntimeConfig, User } from '@/types';
 
 interface AuthState {
@@ -49,7 +50,7 @@ export const useAuth = create<AuthState>((set, get) => ({
       setToken(r.token);
       set({ user: r.user });
     } catch (e) {
-      set({ error: e instanceof ApiError ? e.message : 'Connexion impossible' });
+      set({ error: e instanceof ApiError ? e.message : (useI18n.getState().lang === 'zh' ? '登录失败' : 'Sign-in failed') });
       throw e;
     }
   },

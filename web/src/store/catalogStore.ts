@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { api } from '@/lib/api';
+import { useI18n } from '@/lib/i18n';
 import type { CatalogMeta, Channel, ChannelPage, Filters, HealthStatus } from '@/types';
 
 const LS_FAV = 'neowatch.favorites';
@@ -116,7 +117,7 @@ export const useCatalog = create<CatalogState>((set, get) => ({
       const meta = await api.get<CatalogMeta>('/catalog/meta');
       set({ meta });
     } catch (e) {
-      set({ error: 'Catalogue indisponible (le serveur charge peut-être encore les données).' });
+      set({ error: useI18n.getState().lang === 'zh' ? '目录暂不可用(服务器可能还在加载数据)。' : 'Catalog unavailable (the server may still be loading).' });
     }
   },
 
@@ -151,7 +152,7 @@ export const useCatalog = create<CatalogState>((set, get) => ({
       set({ channels: data.items, page: data.page, pages: data.pages, total: data.total, loading: false });
     } catch (e) {
       if (get().gen !== gen) return;
-      set({ loading: false, error: 'Chargement des chaînes impossible.' });
+      set({ loading: false, error: useI18n.getState().lang === 'zh' ? '频道加载失败。' : 'Failed to load channels.' });
     }
   },
 

@@ -8,7 +8,7 @@ import type { Channel } from '@/types';
 import { usePlayer } from '@/store/playerStore';
 import { useCatalog } from '@/store/catalogStore';
 import { useUI } from '@/store/uiStore';
-import { useT } from '@/lib/i18n';
+import { useI18n, useT } from '@/lib/i18n';
 
 interface Programme { start: number; stop: number | null; title: string; desc?: string | null }
 
@@ -49,7 +49,7 @@ export function ChannelDetail() {
       const qs = cat && cat !== 'undefined' ? `category=${cat}` : c.country ? `country=${c.country}` : '';
       if (qs) api.get<{ items: Channel[] }>(`/catalog/channels?${qs}&limit=18`).then((r) => alive && setSimilar((r.items || []).filter((x) => x.id !== c.id).slice(0, 14))).catch(() => {});
     }).catch(() => { if (alive) { setLoading(false); } });
-    return () => { alive = false; document.title = 'NEOWATCH -- Toutes les chaînes en direct'; };
+    return () => { alive = false; document.title = 'NEOWATCH -- ' + (useI18n.getState().lang === 'zh' ? '全球直播频道' : 'Live channels worldwide'); };
   }, [id]);
 
   const start = (c: Channel) => { if (c.locked) return setPricing(true); addRecent(c); play(c); };

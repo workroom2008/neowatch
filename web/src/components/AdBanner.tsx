@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
+import { useT } from '@/lib/i18n';
 import { useAuth } from '@/store/authStore';
 
 // Real Google AdSense unit for FREE/anonymous users (only when a client id is
 // configured server-side). The premium upsell lives in PromoStrip.
 export function AdBanner() {
   const { user, config } = useAuth();
+  const t = useT();
   const [closed, setClosed] = useState(false);
   const adRef = useRef<HTMLModElement>(null);
   const adsense = config?.adsenseClient;
@@ -37,7 +39,7 @@ export function AdBanner() {
 
   return (
     <div className="relative border-b border-white/[0.06] bg-panel/50">
-      <button onClick={() => setClosed(true)} className="absolute right-1 top-1 z-10 rounded p-1 text-ink/30 hover:text-ink/70" aria-label="Fermer">
+      <button onClick={() => setClosed(true)} className="absolute right-1 top-1 z-10 rounded p-1 text-ink/30 hover:text-ink/70" aria-label={t('common.close')}>
         <X size={13} />
       </button>
       <ins

@@ -1,8 +1,8 @@
 {
-  "name": "NEOWATCH -- Chaînes en direct",
+  "name": "NEOWATCH -- 直播频道",
   "short_name": "NEOWATCH",
-  "description": "Toutes les chaînes de TV en direct : sport, foot, news, films, kids, musique.",
-  "lang": "fr",
+  "description": "全球所有直播频道:体育、足球、新闻、电影、少儿、音乐。",
+  "lang": "zh-CN",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

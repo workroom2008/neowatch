@@ -41,7 +41,7 @@ export function PromoStrip() {
       >
         {premium ? t('top.install') : t('promo.discover')} ›
       </button>
-      <button onClick={close} aria-label="Fermer" className="absolute right-3 top-1/2 grid -translate-y-1/2 place-items-center p-1 text-ink-3 hover:text-ink">
+      <button onClick={close} aria-label={t('common.close')} className="absolute right-3 top-1/2 grid -translate-y-1/2 place-items-center p-1 text-ink-3 hover:text-ink">
         <X size={13} strokeWidth={2.2} />
       </button>
     </div>

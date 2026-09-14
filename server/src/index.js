@@ -153,12 +153,12 @@ const HOME_RAILS = [
   { key: 'es', title: 'Espagne', icon: '🇪🇸', q: { country: 'ES' } },
   { key: 'news', title: 'News en direct', icon: '📰', q: { category: 'news' } },
   { key: 'movies', title: 'Films', icon: '🎬', q: { category: 'movies' } },
-  { key: 'series', title: 'Séries', icon: '📺', q: { category: 'series' } },
+  { key: 'series', title: 'Series', icon: '📺', q: { category: 'series' } },
   { key: 'kids', title: 'Enfants', icon: '🧸', q: { category: 'kids' } },
   { key: 'music', title: 'Musique', icon: '🎵', q: { category: 'music' } },
   { key: 'documentary', title: 'Documentaires', icon: '🌍', q: { category: 'documentary' } },
   { key: 'entertainment', title: 'Divertissement', icon: '✨', q: { category: 'entertainment' } },
-  { key: 'general', title: 'Généralistes populaires', icon: '📡', q: { category: 'general' } },
+  { key: 'general', title: 'Popular channels', icon: '📡', q: { category: 'general' } },
 ];
 
 // Cache the expensive filter+sort selection per catalog build; project (sign

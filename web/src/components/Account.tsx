@@ -33,9 +33,9 @@ export function Account() {
     try {
       await api.put('/auth/password', { currentPassword: pw.current, newPassword: pw.next });
       setPw({ current: '', next: '' });
-      setMsg({ kind: 'ok', text: 'Mot de passe mis à jour.' });
+      setMsg({ kind: 'ok', text: t('account.pwUpdated') });
     } catch (e2) {
-      setMsg({ kind: 'err', text: e2 instanceof ApiError ? e2.message : 'Échec' });
+      setMsg({ kind: 'err', text: e2 instanceof ApiError ? e2.message : t('account.fail') });
     } finally {
       setBusy(false);
     }
@@ -50,7 +50,7 @@ export function Account() {
       logout();
       setOpen(false);
     } catch (e2) {
-      setMsg({ kind: 'err', text: e2 instanceof ApiError ? e2.message : 'Échec' });
+      setMsg({ kind: 'err', text: e2 instanceof ApiError ? e2.message : t('account.fail') });
     } finally {
       setBusy(false);
     }
@@ -63,9 +63,9 @@ export function Account() {
       await api.post('/billing/cancel');
       await refresh();
       await useCatalog.getState().loadChannels();
-      setMsg({ kind: 'ok', text: 'Abonnement Premium résilié.' });
+      setMsg({ kind: 'ok', text: t('account.cancelOk') });
     } catch {
-      setMsg({ kind: 'err', text: 'Échec de la résiliation' });
+      setMsg({ kind: 'err', text: t('account.cancelFail') });
     } finally {
       setBusy(false);
     }

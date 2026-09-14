@@ -51,7 +51,7 @@ export function ProgramSearch() {
   return (
     <div className="border-b border-white/[0.06] bg-panel/40 px-4 py-2">
       <div className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-ink/40">
-        <Tv2 size={12} /> {t('progsearch.onAir')} « {q} »
+        <Tv2 size={12} /> {`${t('progsearch.onAir')} · ${q}`}
       </div>
       <div className="flex gap-2 overflow-x-auto pb-1">
         {results.map((r) => (

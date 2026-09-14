@@ -136,7 +136,7 @@ export function TopBar() {
     <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-surface/75 backdrop-blur-xl backdrop-saturate-150">
     <div className="mx-auto flex h-[60px] w-full max-w-[1760px] items-center gap-2.5 px-3 sm:gap-3 sm:px-[clamp(16px,2.6vw,38px)]">
       {/* Brand */}
-      <button onClick={goHome} className="flex shrink-0 items-center gap-2.5" title="Accueil -- toutes les chaînes">
+      <button onClick={goHome} className="flex shrink-0 items-center gap-2.5" title={t('top.home')}>
         <span className="inline-flex h-2.5 w-2.5 animate-pulse-red rounded-full bg-live shadow-live shadow-[0_0_12px_rgba(255,59,71,0.9)]" />
         <span className="hidden text-[17px] font-extrabold tracking-[0.16em] text-ink sm:inline">
           NEO<span className="text-accent">WATCH</span>
@@ -207,7 +207,7 @@ export function TopBar() {
       )}
 
       {canInstall && (
-        <button onClick={install} aria-label="Installer" className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title="Installer l'app">
+        <button onClick={install} aria-label={t('top.install')} className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title={t('footer.installApp')}>
           <Download size={16} />
         </button>
       )}
@@ -239,7 +239,7 @@ export function TopBar() {
           'relative grid h-[38px] w-[38px] place-items-center rounded-[10px] border transition-colors',
           multiCount ? 'border-accent/40 bg-accent/[0.12] text-accent' : 'border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent'
         )}
-        title="Multi-écran"
+        title={t('top.multi')}
       >
         <Grip size={16} />
         {multiCount > 0 && (
@@ -254,17 +254,17 @@ export function TopBar() {
         <button
           onClick={() => setPricing(true)}
           className="flex h-[38px] items-center gap-1.5 rounded-[10px] border border-gold/40 bg-gold/[0.08] px-3 text-[12.5px] font-bold text-gold hover:bg-gold/[0.16]"
-          title="Passer Premium"
+          title={t('home.goPremium')}
         >
           <Crown size={15} /> <span className="hidden sm:inline">{t('top.premium')}</span>
         </button>
       ) : (
-        <span className="hidden h-[38px] items-center gap-1.5 rounded-[10px] border border-gold/30 bg-gold/10 px-3 font-mono text-[11px] font-extrabold tracking-wider text-gold sm:flex" title="Compte Premium">
+        <span className="hidden h-[38px] items-center gap-1.5 rounded-[10px] border border-gold/30 bg-gold/10 px-3 font-mono text-[11px] font-extrabold tracking-wider text-gold sm:flex" title={t('common.premium')}>
           <Crown size={13} /> PRO
         </span>
       )}
 
-      <button onClick={() => setInstall(true)} aria-label="Installer (TV / mobile)" className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title="Installer (TV / mobile)">
+      <button onClick={() => setInstall(true)} aria-label={t('top.installTvTitle')} className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title={t('top.installTvTitle')}>
         <MonitorDown size={16} />
       </button>
 
@@ -299,7 +299,7 @@ export function TopBar() {
       </button>
 
       {isAdmin() && (
-        <button onClick={() => navigate('/admin')} aria-label="Admin" className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title="Admin">
+        <button onClick={() => navigate('/admin')} aria-label={t('top.admin')} className="hidden h-[38px] w-[38px] place-items-center rounded-[10px] border border-white/[0.08] bg-white/[0.04] text-ink-2 hover:border-accent hover:text-accent sm:grid" title={t('top.admin')}>
           <ShieldQuestion size={16} />
         </button>
       )}

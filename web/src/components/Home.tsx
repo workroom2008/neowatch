@@ -12,15 +12,15 @@ import { useT, useI18n, numLocale } from '@/lib/i18n';
 import { Rail } from './Rail';
 import { CardSkeleton } from './ui';
 
-const TILES: { label: string; icon: string; art: string; cat: string; apply: Partial<Filters> }[] = [
-  { label: 'Foot', icon: '⚽', art: 'foot', cat: 'sports', apply: { foot: true } },
-  { label: 'Sport', icon: '🏆', art: 'sports', cat: 'sports', apply: { category: 'sports' } },
-  { label: 'Actu', icon: '📰', art: 'news', cat: 'news', apply: { category: 'news' } },
-  { label: 'Films', icon: '🎬', art: 'movies', cat: 'movies', apply: { category: 'movies' } },
-  { label: 'Séries', icon: '📺', art: 'series', cat: 'series', apply: { category: 'series' } },
-  { label: 'Enfants', icon: '🧸', art: 'kids', cat: 'kids', apply: { category: 'kids' } },
-  { label: 'Musique', icon: '🎵', art: 'music', cat: 'music', apply: { category: 'music' } },
-  { label: 'Docs', icon: '🌍', art: 'documentary', cat: 'documentary', apply: { category: 'documentary' } },
+const TILES: { label: string; zh: string; icon: string; art: string; cat: string; apply: Partial<Filters> }[] = [
+  { label: 'Football', zh: '足球', icon: '⚽', art: 'foot', cat: 'sports', apply: { foot: true } },
+  { label: 'Sport', zh: '体育', icon: '🏆', art: 'sports', cat: 'sports', apply: { category: 'sports' } },
+  { label: 'News', zh: '新闻', icon: '📰', art: 'news', cat: 'news', apply: { category: 'news' } },
+  { label: 'Movies', zh: '电影', icon: '🎬', art: 'movies', cat: 'movies', apply: { category: 'movies' } },
+  { label: 'Series', zh: '剧集', icon: '📺', art: 'series', cat: 'series', apply: { category: 'series' } },
+  { label: 'Kids', zh: '少儿', icon: '🧸', art: 'kids', cat: 'kids', apply: { category: 'kids' } },
+  { label: 'Music', zh: '音乐', icon: '🎵', art: 'music', cat: 'music', apply: { category: 'music' } },
+  { label: 'Docs', zh: '纪录', icon: '🌍', art: 'documentary', cat: 'documentary', apply: { category: 'documentary' } },
 ];
 
 const AMBIANCE: Record<string, string> = {
@@ -109,7 +109,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
             {now && (
               <div className="flex max-w-[520px] flex-col gap-2">
                 <div className="flex items-center gap-2.5 font-mono text-[10.5px] tracking-wide">
-                  <span className="font-bold text-accent">EN COURS</span>
+                  <span className="font-bold text-accent">{t('player.onNow')}</span>
                   <span className="truncate text-ink-3">{fmtTime(now.start)}{now.stop ? `–${fmtTime(now.stop)}` : ''} · {now.title}</span>
                 </div>
                 {progress != null && (
@@ -117,7 +117,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
                     <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent to-[#7C5CFC]" style={{ width: `${progress}%` }} />
                   </div>
                 )}
-                {heroEpg?.next && <div className="truncate font-mono text-[11px] text-ink-3">À {fmtTime(heroEpg.next.start)} · {heroEpg.next.title}</div>}
+                {heroEpg?.next && <div className="truncate font-mono text-[11px] text-ink-3">{lang === 'zh' ? '' : 'At '}{fmtTime(heroEpg.next.start)} · {heroEpg.next.title}</div>}
               </div>
             )}
             <div className="mt-1 flex flex-wrap items-center gap-2.5 sm:gap-3">
@@ -168,7 +168,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
                 <div className="absolute bottom-2.5 left-3 right-3 flex items-end gap-2">
                   <span className="text-[23px] leading-none drop-shadow">{tile.icon}</span>
                   <span className="flex flex-col gap-0.5">
-                    <span className="text-[15px] font-bold text-white drop-shadow">{tile.label}</span>
+                    <span className="text-[15px] font-bold text-white drop-shadow">{lang === 'zh' ? tile.zh : tile.label}</span>
                     {count != null && <span className="font-mono text-[10px] tracking-wide text-white/60">{count.toLocaleString(numLocale())} {t('home.channelsCount')}</span>}
                   </span>
                 </div>

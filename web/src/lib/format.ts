@@ -1,4 +1,5 @@
 import type { Channel } from '@/types';
+import { useI18n } from './i18n';
 
 // The proxy URL is SIGNED server-side (HMAC + TTL) and delivered as ch.proxyUrl
 // for every channel the user is allowed to play. The client never builds or
@@ -28,39 +29,41 @@ export function youTubeEmbed(id: string): string {
   return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1&modestbranding=1&rel=0`;
 }
 
-// Curated icons + FR labels for the most useful categories.
-export const CATEGORY_META: Record<string, { label: string; icon: string }> = {
-  sports: { label: 'Sport', icon: '⚽' },
-  news: { label: 'News / Actu', icon: '📰' },
-  movies: { label: 'Films', icon: '🎬' },
-  series: { label: 'Séries', icon: '📺' },
-  entertainment: { label: 'Divertissement', icon: '✨' },
-  kids: { label: 'Enfants', icon: '🧸' },
-  music: { label: 'Musique', icon: '🎵' },
-  documentary: { label: 'Docu', icon: '🌍' },
-  general: { label: 'Généraliste', icon: '📡' },
-  culture: { label: 'Culture', icon: '🎭' },
-  comedy: { label: 'Comédie', icon: '😄' },
-  cooking: { label: 'Cuisine', icon: '🍳' },
-  lifestyle: { label: 'Lifestyle', icon: '💎' },
-  business: { label: 'Business', icon: '📈' },
-  science: { label: 'Science', icon: '🔬' },
-  education: { label: 'Éducation', icon: '🎓' },
-  religious: { label: 'Religion', icon: '🕊️' },
-  travel: { label: 'Voyage', icon: '✈️' },
-  weather: { label: 'Météo', icon: '⛅' },
-  animation: { label: 'Animation', icon: '🎨' },
-  family: { label: 'Famille', icon: '👨‍👩‍👧' },
-  legislative: { label: 'Politique', icon: '🏛️' },
-  outdoor: { label: 'Outdoor', icon: '🏔️' },
-  auto: { label: 'Auto/Moto', icon: '🏎️' },
-  shop: { label: 'Shopping', icon: '🛍️' },
-  relax: { label: 'Détente', icon: '🧘' },
-  undefined: { label: 'Autres', icon: '📦' },
+// Curated icons + ZH/EN labels for the most useful categories.
+export const CATEGORY_META: Record<string, { label: string; zh: string; icon: string }> = {
+  sports: { label: 'Sports', zh: '体育', icon: '⚽' },
+  news: { label: 'News', zh: '新闻', icon: '📰' },
+  movies: { label: 'Movies', zh: '电影', icon: '🎬' },
+  series: { label: 'Series', zh: '剧集', icon: '📺' },
+  entertainment: { label: 'Entertainment', zh: '综艺', icon: '✨' },
+  kids: { label: 'Kids', zh: '少儿', icon: '🧸' },
+  music: { label: 'Music', zh: '音乐', icon: '🎵' },
+  documentary: { label: 'Docs', zh: '纪录', icon: '🌍' },
+  general: { label: 'General', zh: '综合', icon: '📡' },
+  culture: { label: 'Culture', zh: '文化', icon: '🎭' },
+  comedy: { label: 'Comedy', zh: '喜剧', icon: '😄' },
+  cooking: { label: 'Cooking', zh: '美食', icon: '🍳' },
+  lifestyle: { label: 'Lifestyle', zh: '生活方式', icon: '💎' },
+  business: { label: 'Business', zh: '财经', icon: '📈' },
+  science: { label: 'Science', zh: '科学', icon: '🔬' },
+  education: { label: 'Education', zh: '教育', icon: '🎓' },
+  religious: { label: 'Religion', zh: '宗教', icon: '🕊️' },
+  travel: { label: 'Travel', zh: '旅游', icon: '✈️' },
+  weather: { label: 'Weather', zh: '天气', icon: '⛅' },
+  animation: { label: 'Animation', zh: '动画', icon: '🎨' },
+  family: { label: 'Family', zh: '家庭', icon: '👨‍👩‍👧' },
+  legislative: { label: 'Politics', zh: '政务', icon: '🏛️' },
+  outdoor: { label: 'Outdoor', zh: '户外', icon: '🏔️' },
+  auto: { label: 'Auto/Moto', zh: '汽车/摩托', icon: '🏎️' },
+  shop: { label: 'Shopping', zh: '购物', icon: '🛍️' },
+  relax: { label: 'Relax', zh: '休闲', icon: '🧘' },
+  undefined: { label: 'Others', zh: '其他', icon: '📦' },
 };
 
 export function categoryLabel(id: string): string {
-  return CATEGORY_META[id]?.label || id.charAt(0).toUpperCase() + id.slice(1);
+  const meta = CATEGORY_META[id];
+  if (meta) return useI18n.getState().lang === 'zh' ? meta.zh : meta.label;
+  return id.charAt(0).toUpperCase() + id.slice(1);
 }
 export function categoryIcon(id: string): string {
   return CATEGORY_META[id]?.icon || '📺';

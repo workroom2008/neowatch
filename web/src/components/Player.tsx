@@ -189,7 +189,7 @@ export function Player({ channel }: { channel: Channel }) {
               .join(' · ')}
           </p>
         </div>
-        <button onClick={close} className="ml-auto rounded-lg p-2 text-ink/60 hover:bg-white/5 hover:text-ink" aria-label="Fermer">
+        <button onClick={close} className="ml-auto rounded-lg p-2 text-ink/60 hover:bg-white/5 hover:text-ink" aria-label={t('common.close')}>
           <X size={18} />
         </button>
       </div>

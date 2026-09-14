@@ -249,6 +249,23 @@ const DICT: Record<string, Tr> = {
   'detail.info': { zh: '信息与节目单', en: 'Info & schedule' },
   // Common
   'common.premium': { zh: '高级会员', en: 'Premium' },
+  // Shared misc
+  'top.home': { zh: '首页 -- 所有频道', en: 'Home -- all channels' },
+  'top.installTvTitle': { zh: '安装到电视 / 手机', en: 'Install on TV / mobile' },
+  'filter.cat': { zh: '分类', en: 'Category' },
+  'filter.country': { zh: '国家', en: 'Country' },
+  'filter.lang': { zh: '语言', en: 'Language' },
+  'filter.sort': { zh: '排序', en: 'Sort' },
+  'filter.recheck': { zh: '重新检测频道在线状态', en: 'Re-check channel status' },
+  'pricing.unavailable': { zh: '支付不可用', en: 'Payment unavailable' },
+  'pricing.upgradeTitle': { zh: '升级 NEOWATCH 高级会员', en: 'Go NEOWATCH Premium' },
+  'pricing.free': { zh: '免费', en: 'Free' },
+  'pricing.currentPlan': { zh: '当前默认套餐', en: 'Default current plan' },
+  'account.fail': { zh: '操作失败', en: 'Action failed' },
+  'account.cancelFail': { zh: '取消高级会员失败', en: 'Failed to cancel Premium' },
+  'account.pwUpdated': { zh: '密码已更新。', en: 'Password updated.' },
+  'account.cancelOk': { zh: '高级会员已取消。', en: 'Premium cancelled.' },
+  'filter.results': { zh: '搜索结果', en: 'Results for' },
 };
 
 interface I18nState {
