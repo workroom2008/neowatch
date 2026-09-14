@@ -2,7 +2,7 @@ import { lookup } from 'node:dns/promises';
 import { lookup as dnsLookupCb } from 'node:dns';
 import { isIP } from 'node:net';
 // Use undici's own fetch + Agent together (no bundled-vs-installed mismatch).
-import { fetch as uFetch, Agent } from 'undici';
+import { fetch as uFetch, Agent, ProxyAgent } from 'undici';
 
 // SSRF guard shared by the stream proxy and the health checker: never let a
 // user-supplied URL resolve to an internal / loopback / cloud-metadata host.
@@ -79,6 +79,15 @@ const guardedAgent = new Agent({
   keepAliveMaxTimeout: 30000,
 });
 
+// Optional outbound proxy for every server-side fetch (catalog, health sweep,
+// M3U/EPG imports, films, radios and the stream proxy). Useful where geoblocked
+// streams or strict networks make direct outbound requests fail.
+// Format: http(s)://[user:pass@]host:port -- e.g. http://192.168.1.250:20172
+export const EXT_PROXY_URI = process.env.PROXY_HOST || '';
+const proxyDispatcher = EXT_PROXY_URI
+  ? new ProxyAgent({ uri: EXT_PROXY_URI, connect: { timeout: 10000 }, headersTimeout: 20000, bodyTimeout: 30000 })
+  : null;
+
 // SSRF-safe fetch: re-validates EVERY redirect hop and pins the connect-time DNS
 // resolution. Use this for any user-influenced URL instead of fetch(redirect:'follow').
 // allowPrivate skips the guard (trusted LAN providers, opt-in only).
@@ -88,10 +97,13 @@ export async function safeFetch(url, init = {}, { maxHops = 5, allowPrivate = fa
   for (let hop = 0; hop <= maxHops; hop++) {
     if (!/^https?:\/\//i.test(current)) throw new Error('blocked scheme');
     if (!allowPrivate) await assertPublicHost(current);
+    // The guarded agent pins DNS + validates the connected IP; through an upstream
+    // proxy the proxy does the DNS, but assertPublicHost above still gates each hop.
+    const dispatcher = proxyDispatcher ?? (allowPrivate ? undefined : guardedAgent);
     res = await uFetch(current, {
       ...init,
       redirect: 'manual',
-      ...(allowPrivate ? {} : { dispatcher: guardedAgent }),
+      ...(dispatcher ? { dispatcher } : {}),
     });
     if (res.status >= 300 && res.status < 400 && res.headers.get('location')) {
       // Drain the redirect body or the socket stays checked-out of the pool.

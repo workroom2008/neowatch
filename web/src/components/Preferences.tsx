@@ -7,6 +7,7 @@ import { usePrefs } from '@/store/prefsStore';
 import { categoryIcon, categoryLabel } from '@/lib/format';
 import { useEscapeClose } from './ui';
 import { useT, numLocale } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
 
 // Premium "watch preferences": tailor the huge catalog to your needs
 // (hide categories you never watch, pin favourites, set a default home view).
@@ -58,7 +59,7 @@ export function Preferences() {
               <select value={prefs.home.country || ''} onChange={(e) => setHome({ country: e.target.value || null })} className="input">
                 <option value="">{t('prefs.countryAll')}</option>
                 {meta?.countries.slice(0, 100).map((c) => (
-                  <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                  <option key={c.code} value={c.code}>{c.flag} {countryLabelOf(c.code, c.name)}</option>
                 ))}
               </select>
               <select value={prefs.home.language || ''} onChange={(e) => setHome({ language: e.target.value || null })} className="input">

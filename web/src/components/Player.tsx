@@ -14,6 +14,7 @@ import { useCatalog } from '@/store/catalogStore';
 import { usePlayer } from '@/store/playerStore';
 import { useSettings } from '@/store/settingsStore';
 import { useT } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
 
 interface Track { name: string; lang?: string }
 
@@ -184,9 +185,10 @@ export function Player({ channel }: { channel: Channel }) {
             <HealthBadge status={health} latency={latency} />
           </div>
           <p className="truncate text-[11px] text-ink/40">
-            {[channel.countryName, channel.categories.map(categoryLabel).slice(0, 2).join(' · ')]
-              .filter(Boolean)
-              .join(' · ')}
+            {[
+              channel.country ? countryLabelOf(channel.country, channel.countryName) : null,
+              channel.categories.map(categoryLabel).slice(0, 2).join(' · '),
+            ].filter(Boolean).join(' · ')}
           </p>
         </div>
         <button onClick={close} className="ml-auto rounded-lg p-2 text-ink/60 hover:bg-white/5 hover:text-ink" aria-label={t('common.close')}>

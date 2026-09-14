@@ -9,6 +9,7 @@ import { usePlayer } from '@/store/playerStore';
 import { useUI } from '@/store/uiStore';
 import { HealthBadge } from './ui';
 import { useT } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
 
 interface Props {
   channel: Channel;
@@ -120,7 +121,7 @@ export const ChannelCard = memo(function ChannelCard({ channel, health, latency,
         </div>
         <div className="flex items-center gap-1.5 text-[10px] text-ink/40">
           <span>{channel.flag || '🌐'}</span>
-          <span className="truncate">{channel.countryName || 'International'}</span>
+          <span className="truncate">{channel.country ? countryLabelOf(channel.country, channel.countryName) : t('home.international')}</span>
           <span className="ml-auto shrink-0">{categoryIcon(channel.categories[0] || 'undefined')}</span>
         </div>
       </div>

@@ -9,6 +9,8 @@ import { usePlayer } from '@/store/playerStore';
 import { useCatalog } from '@/store/catalogStore';
 import { useUI } from '@/store/uiStore';
 import { useI18n, useT } from '@/lib/i18n';
+import { countryLabelOf, langLabelOf } from '@/lib/names';
+import { categoryLabel } from '@/lib/format';
 
 interface Programme { start: number; stop: number | null; title: string; desc?: string | null }
 
@@ -70,7 +72,7 @@ export function ChannelDetail() {
   );
 
   const online = ch.online === true;
-  const meta = [ch.countryName, ch.languageNames?.[0], ch.categoryNames?.[0], ch.quality].filter(Boolean);
+  const meta = [ch.country ? countryLabelOf(ch.country, ch.countryName) : null, ch.languages?.[0] ? langLabelOf(ch.languages[0], ch.languageNames?.[0]) : null, ch.categories?.[0] ? categoryLabel(ch.categories[0]) : null, ch.quality].filter(Boolean);
   const now = epg?.now;
   const progress = now && now.stop ? Math.min(100, Math.max(0, ((Date.now() - now.start) / (now.stop - now.start)) * 100)) : null;
 

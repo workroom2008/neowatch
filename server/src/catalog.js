@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { config } from './config.js';
+import { safeFetch } from './netguard.js';
 import { stableId, classifyKind } from './util.js';
 import { proxyLink } from './signing.js';
 import { getHealth, isOnline } from './health.js';
@@ -75,7 +76,8 @@ function isPremiumItem(it) {
 
 async function fetchJson(name) {
   const url = `${config.apiBase}/${name}.json`;
-  const res = await fetch(url, { headers: { 'User-Agent': 'NEOWATCH/1.0' } });
+  // Use safeFetch so the iptv-org datasets also honor PROXY_HOST outbound proxy.
+  const res = await safeFetch(url, { headers: { 'User-Agent': 'NEOWATCH/1.0' } });
   if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
   return res.json();
 }

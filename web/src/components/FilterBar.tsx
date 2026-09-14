@@ -4,6 +4,7 @@ import { useCatalog } from '@/store/catalogStore';
 import { useSettings, type Density } from '@/store/settingsStore';
 import { categoryLabel } from '@/lib/format';
 import { useT, useI18n, numLocale } from '@/lib/i18n';
+import { countryLabelOf, langLabelOf } from '@/lib/names';
 
 export function FilterBar() {
   // Field selectors so the bar re-renders only on the slices it uses.
@@ -56,7 +57,7 @@ export function FilterBar() {
             >
               <option value="">🌐 {t('filter.allCountries')}</option>
               {meta.countries.map((c) => (
-                <option key={c.code} value={c.code}>{c.flag} {c.name} ({c.count})</option>
+                <option key={c.code} value={c.code}>{c.flag} {countryLabelOf(c.code, c.name)} ({c.count})</option>
               ))}
             </select>
             <select
@@ -67,7 +68,7 @@ export function FilterBar() {
             >
               <option value="">{t('filter.allLanguages')}</option>
               {meta.languages.slice(0, 80).map((l) => (
-                <option key={l.code} value={l.code}>{l.name} ({l.count})</option>
+                <option key={l.code} value={l.code}>{langLabelOf(l.code, l.name)} ({l.count})</option>
               ))}
             </select>
           </>

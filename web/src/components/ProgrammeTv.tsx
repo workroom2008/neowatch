@@ -6,6 +6,8 @@ import { api } from '@/lib/api';
 import { fmtTime } from '@/lib/epg';
 import { useCatalog } from '@/store/catalogStore';
 import { useT } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
+import { categoryLabel } from '@/lib/format';
 
 interface GP { start: number; stop: number | null; title: string }
 interface GC { id: number; name: string; logo: string | null; flag: string | null; channelId: string; locked: boolean; programmes: GP[] }
@@ -66,11 +68,11 @@ export function ProgrammeTv() {
           <div className="flex flex-wrap gap-2">
             <select value={country} onChange={(e) => setFilter('country', e.target.value)} className="input w-full sm:w-auto">
               <option value="">{t('programme.allCountries')}</option>
-              {meta?.countries.slice(0, 100).map((c) => <option key={c.code} value={c.code}>{c.flag} {c.name}</option>)}
+              {meta?.countries.slice(0, 100).map((c) => <option key={c.code} value={c.code}>{c.flag} {countryLabelOf(c.code, c.name)}</option>)}
             </select>
             <select value={category} onChange={(e) => setFilter('category', e.target.value)} className="input w-full sm:w-auto">
               <option value="">{t('programme.allCategories')}</option>
-              {meta?.categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {meta?.categories.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c.id)}</option>)}
             </select>
           </div>
         </div>

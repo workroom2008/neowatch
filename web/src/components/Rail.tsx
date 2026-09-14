@@ -7,6 +7,8 @@ import { fmtTime, type NowNext, type Programme } from '@/lib/epg';
 import { api } from '@/lib/api';
 import { useUI } from '@/store/uiStore';
 import { useI18n, useT } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
+import { categoryLabel } from '@/lib/format';
 
 interface Props {
   title: string;
@@ -173,7 +175,7 @@ function RailCard({ ch, wide, resume, now, onPlay, onLocked }: { ch: Channel; wi
   const navigate = useNavigate();
   const { mono, color } = monogram(ch.name);
   const online = ch.online === true;
-  const cat = ch.categoryNames?.[0] || '';
+  const cat = ch.categories?.[0] ? categoryLabel(ch.categories[0]) : '';
   const q = qualityLabel(ch.quality);
 
   const activate = () => (ch.locked ? onLocked() : onPlay(ch));
@@ -275,7 +277,7 @@ function PosterCard({ ch, onPlay, onLocked }: { ch: Channel; onPlay: (c: Channel
       </div>
       <div className="px-0.5 pt-2.5">
         <div className="truncate text-[13px] font-bold text-ink">{ch.name}</div>
-        <div className="truncate font-mono text-[11px] text-ink-3">{ch.categoryNames?.[0] || ch.countryName || 'International'}</div>
+        <div className="truncate font-mono text-[11px] text-ink-3">{ch.categories?.[0] ? categoryLabel(ch.categories[0]) : countryLabelOf(ch.country, ch.countryName) || t('home.international')}</div>
       </div>
     </article>
   );

@@ -9,6 +9,7 @@ import { useUI } from '@/store/uiStore';
 import { usePlayer } from '@/store/playerStore';
 import { useAuth } from '@/store/authStore';
 import { useT, useI18n, numLocale } from '@/lib/i18n';
+import { countryLabelOf } from '@/lib/names';
 import { Rail } from './Rail';
 import { CardSkeleton } from './ui';
 
@@ -102,7 +103,7 @@ export function Home({ onPlay }: { onPlay: (ch: Channel) => void }) {
             </h1>
             <p className="m-0 max-w-[520px] text-[clamp(14px,1.4vw,16px)] text-ink-2">
               {hero
-                ? `${hero.flag || '🌐'} ${hero.countryName || t('home.international')} · ${hero.categoryNames?.[0] || t('home.live')} · ${t('home.heroClip')}`
+                ? `${hero.flag || '🌐'} ${countryLabelOf(hero.country, hero.countryName) || t('home.international')} · ${hero.categoryNames?.[0] || t('home.live')} · ${t('home.heroClip')}`
                 : t('home.heroTagline')}
             </p>
             {/* Now / next programme (when EPG is available for this channel) */}
